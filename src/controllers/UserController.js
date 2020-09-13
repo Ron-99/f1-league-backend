@@ -4,6 +4,7 @@ const repository = require('../repositories/UserRepository');
 const md5 = require('md5');
 
 module.exports = {
+    
     async get(_, res) {
         try{
             const users = await repository.get();
