@@ -14,8 +14,10 @@
   "author": "Ronaldo Gomes <ronaldosg1999@outlook.com> (https://github.com/ron17)",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http": "0.0.1-security",
+    "md5": "^2.3.0",
     "mongoose": "^5.10.5",
     "require-dir": "^1.2.0"
   },
