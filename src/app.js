@@ -27,6 +27,7 @@ const userRoute = require('./routes/UserRoute');
 const teamRoute = require('./routes/TeamRoute');
 const driverRoute = require('./routes/DriverRoute');
 const rankRoute = require('./routes/RankRoute');
+const trackRoute = require('./routes/TrackRoute');
 
 // Enable CORS
 app.use(function (req, res, next) {
@@ -41,5 +42,6 @@ app.use('/user', userRoute);
 app.use('/team', teamRoute);
 app.use('/driver', driverRoute);
 app.use('/rank', rankRoute);
+app.use('/track', trackRoute);
 
 module.exports = app;
