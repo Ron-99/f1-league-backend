@@ -2,6 +2,7 @@
 
 const repository = require('../repositories/DriverRepository');
 const teamRepository = require('../repositories/TeamRepository');
+const rankRepository = require('../repositories/RankRepository');
 
 module.exports = {
     async get(_, res){
@@ -18,14 +19,17 @@ module.exports = {
     async create(req, res){
         try{
             const team = await teamRepository.getById(req.body.idTeam);
+            const rank = await rankRepository.getById(req.body.idRank);
             await repository.create({
                 name: req.body.name,
-                team: [team]
+                team: [team],
+                rank: [rank]
             });
             res.status(201).send({
                 message: 'Piloto criado com sucesso!'
             });
         }catch(e){
+            console.log(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });

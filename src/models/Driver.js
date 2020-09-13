@@ -12,6 +12,11 @@ const DriverSchema = new mongoose.Schema({
         ref: 'Team',
         required: true
     }],
+    rank: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Rank',
+        required: true
+    }],
     created: {
         type: Date,
         default: Date.now()

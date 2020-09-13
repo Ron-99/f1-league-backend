@@ -6,7 +6,8 @@ module.exports = {
     async get(){
         const drivers = await Driver
             .find({}, 'name team')
-            .populate('team', 'name');
+            .populate('team', 'name')
+            .populate('rank', 'name');
         return drivers;
     },
 
