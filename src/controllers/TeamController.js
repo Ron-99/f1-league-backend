@@ -18,7 +18,8 @@ module.exports = {
     async create(req, res){
         try{
             await repository.create({
-                name: req.body.name
+                name: req.body.name,
+                colorTeam: req.body.colorTeam
             });
             res.status(201).send({
                 message: 'Time criado com sucesso!'

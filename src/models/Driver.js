@@ -2,15 +2,16 @@
 
 const mongoose = require('mongoose');
 
-const TeamSchema = new mongoose.Schema({
+const DriverSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
-    colorTeam: {
-        type: String,
+    team: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Team',
         required: true
-    },
+    }],
     created: {
         type: Date,
         default: Date.now()
@@ -21,4 +22,4 @@ const TeamSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Team', TeamSchema);
+module.exports = mongoose.model('Driver', DriverSchema);

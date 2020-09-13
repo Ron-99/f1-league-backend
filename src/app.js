@@ -25,6 +25,7 @@ requireDir('./models');
 const indexRoute = require('./routes/IndexRoute');
 const userRoute = require('./routes/UserRoute');
 const teamRoute = require('./routes/TeamRoute');
+const driverRoute = require('./routes/DriverRoute');
 
 // Enable CORS
 app.use(function (req, res, next) {
@@ -37,5 +38,6 @@ app.use(function (req, res, next) {
 app.use('/', indexRoute);
 app.use('/user', userRoute);
 app.use('/team', teamRoute);
+app.use('/driver', driverRoute);
 
 module.exports = app;
