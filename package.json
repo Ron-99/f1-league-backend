@@ -1,0 +1,23 @@
+{
+  "name": "league-f1-app",
+  "version": "1.0.0",
+  "description": "Essa api tem como objetivo trazer os resultados da liga de 1 do Brasil",
+  "main": "bin/server.js",
+  "scripts": {
+    "start": "node --trace-warnings bin/server.js ",
+    "dev": "nodemon bin/server.js --ignore __tests__"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Ronaldo Gomes <ronaldosg1999@outlook.com> (https://github.com/ron17)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http": "0.0.1-security"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
