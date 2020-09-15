@@ -28,5 +28,18 @@ module.exports = {
                 message: 'Falha ao processar sua requisição'
             });
         }
+    },
+
+    async update(req, res){
+        try{
+            await repository.updateFlag(req.params.id, req.body.flag);
+            res.status(201).send({
+                message: 'Pista atualizada com sucesso!'
+            });
+        }catch(e){
+            res.status(400).send({
+                message: 'Falha ao processar sua requisição'
+            });
+        }
     }
 }

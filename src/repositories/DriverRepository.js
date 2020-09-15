@@ -11,6 +11,11 @@ module.exports = {
         return drivers;
     },
 
+    async getById(id){
+        const driver = await Driver.findById(id);
+        return driver;
+    },
+
     async create(data){
         await Driver.create(data);
     },
