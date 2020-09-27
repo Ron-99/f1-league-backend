@@ -45,9 +45,13 @@ module.exports = {
     async create(data){
         await Classification.create(data);
     },
+
+    async update(id, data){
+        await Classification.findOneAndUpdate({_id: id}, data)
+    },
     
     async delete(id){
-        await Classification.findOneAndRemove(id);
+        await Classification.findOneAndRemove({_id: id});
     }
 
 }

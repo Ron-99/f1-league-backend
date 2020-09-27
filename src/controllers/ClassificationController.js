@@ -4,6 +4,7 @@ const repository = require('../repositories/ClassificationRepository');
 const driverRepository = require('../repositories/DriverRepository');
 const trackRepository = require('../repositories/TrackRepository');
 const rankRepository = require('../repositories/RankRepository');
+const { update } = require('../models/Rank');
 
 module.exports = {
     async get(req, res){
@@ -80,9 +81,34 @@ module.exports = {
         }
     },
 
+    async update(req, res){
+        try{
+            const driver = await driverRepository.getById(req.body.idDriver);
+            const track = await trackRepository.getById(req.body.idTrack);
+            
+            await repository.update(req.params.id,{
+                position: req.body.position,
+                date: req.body.date,
+                points: req.body.points,
+                driver: driver,
+                track: track,
+                bestTime: req.body.bestTime,
+                trialTime: req.body.trialTime
+            });
+            res.status(200).send({
+                message: 'Classificação atualizada com sucesso!'
+            });
+        }catch(e){
+            console.log(e);
+            res.status(400).send({
+                message: 'Falha ao processar sua requisição'
+            });
+        }
+    },
+
     async delete(req, res){
         try{
-            await repository.delete(req.body.id);
+            await repository.delete(req.params.id);
             res.status(200).send({
                 message: 'Classificação removido com sucesso!'
             });
