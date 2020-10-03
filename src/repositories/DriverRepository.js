@@ -8,7 +8,7 @@ module.exports = {
         const drivers = await Driver
             .find({}, 'name team')
             .populate('team', 'name')
-            .populate('rank', 'name');
+            .populate('rank', 'name')
         return drivers;
     },
 
@@ -24,9 +24,10 @@ module.exports = {
 
     async getById(id){
         const driver = await Driver
-            .findById(id, 'name team')
+            .findById(id, 'name team penalty')
             .populate('team', 'name')
-            .populate('rank', 'name');
+            .populate('rank', 'name')
+            .populate('penalty', 'level description color');;
             
         return driver;
     },
@@ -50,6 +51,10 @@ module.exports = {
 
     async create(data){
         await Driver.create(data);
+    },
+
+    async updatePenalty(id, data){
+        await Driver.findByIdAndUpdate(id, {penalty: data});
     },
 
     async updateTeam(id, data){

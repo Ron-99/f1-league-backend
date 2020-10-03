@@ -1,6 +1,7 @@
 'use strict';
 
 const Classification = require('../models/Classification');
+const Driver = require('../models/Driver');
 
 module.exports = {
     async get(date, rank){
@@ -40,6 +41,62 @@ module.exports = {
             
 
         return dates;
+    },
+
+    async getDriversPoints(rank, season){
+        const driversPoints = await Classification
+            .aggregate(
+                [
+                    { 
+                        $match : { 
+                            rank: rank,
+                            season: season
+                        } 
+                    },
+                    {
+                        $group: {
+                            _id: "$driver",
+                            points: {
+                                $sum: '$points'
+                            }
+                        }                        
+                    }
+                ]
+            ).sort({points: 'desc'})
+        await Driver
+            .populate(driversPoints, 
+                {
+                    path: '_id',
+                    populate: [{
+                        path: 'team',
+                        select: 'name'
+                    },
+                    {
+                        path: 'rank', 
+                        select: 'name'
+                    }]
+                })
+            
+            
+        return driversPoints;
+    },
+
+    async getTeamPoints(){
+        const teamPoints = await Classification.aggregate(
+            [
+                { 
+                    $group : { 
+                        _id : '$driver', 
+                        points : { 
+                            $sum : "$points"
+                        }
+                    }
+                }
+            ]
+        );
+        
+        return teamPoints;
+
     },
 
     async create(data){

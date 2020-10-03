@@ -17,6 +17,11 @@ const DriverSchema = new mongoose.Schema({
         ref: 'Rank',
         required: true
     }],
+    penalty: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Penalty',
+        required: true
+    },
     created: {
         type: Date,
         default: Date.now()

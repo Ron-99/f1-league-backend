@@ -29,6 +29,7 @@ const driverRoute = require('./routes/DriverRoute');
 const rankRoute = require('./routes/RankRoute');
 const trackRoute = require('./routes/TrackRoute');
 const classificationRoute = require('./routes/ClassificationRoute');
+const penaltyRoute = require('./routes/PenaltyRoute');
 
 // Enable CORS
 app.use(function (req, res, next) {
@@ -45,5 +46,6 @@ app.use('/driver', driverRoute);
 app.use('/rank', rankRoute);
 app.use('/track', trackRoute);
 app.use('/classification', classificationRoute);
+app.use('/penalty', penaltyRoute);
 
 module.exports = app;

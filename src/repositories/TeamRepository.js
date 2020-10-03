@@ -4,8 +4,11 @@ const Team = require('../models/Team');
 
 module.exports = {
 
-    async get(){
-        const teams = await Team.find({}, 'name colorTeam');
+    async get(name){
+        const teams = await Team
+            .find({name: { $regex: new RegExp(name), $options: 'i' }}, 'name colorTeam')
+            .collation({ locale: "en" })
+            .sort({ name: 1 });
         return teams;
     },
 

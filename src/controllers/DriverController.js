@@ -3,6 +3,7 @@
 const repository = require('../repositories/DriverRepository');
 const teamRepository = require('../repositories/TeamRepository');
 const rankRepository = require('../repositories/RankRepository');
+const penaltyRepository = require('../repositories/PenaltyRepository');
 
 module.exports = {
     async get(_, res){
@@ -81,10 +82,12 @@ module.exports = {
         try{
             const team = await teamRepository.getById(req.body.idTeam);
             const rank = await rankRepository.getById(req.body.idRank);
+            const penalty = await penaltyRepository.getByLevel(0);
             await repository.create({
                 name: req.body.name,
                 team: [team],
-                rank: [rank]
+                rank: [rank],
+                penalty: penalty
             });
             res.status(201).send({
                 message: 'Piloto criado com sucesso!'
@@ -97,10 +100,24 @@ module.exports = {
         }
     },
 
+    async updatePenalty(req, res){
+        try{
+            const penalty = await penaltyRepository.getByLevel(req.query.level);
+            await repository.updatePenalty(req.params.id, penalty);
+            res.status(200).send({
+                message: 'Piloto atualizado com sucesso!'
+            });
+        }catch(e){
+            res.status(400).send({
+                message: 'Falha ao processar sua requisição'
+            });
+        }
+    },
+
     async updateTeam(req, res){
         try{
             const team = await teamRepository.getById(req.body.idTeam);
-            const driver = await repository.updateTeam(req.params.id, team);
+            await repository.updateTeam(req.params.id, team);
             res.status(200).send({
                 message: 'Piloto atualizado com sucesso!'
             });

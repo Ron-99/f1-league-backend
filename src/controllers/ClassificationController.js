@@ -53,6 +53,30 @@ module.exports = {
         }
     },
 
+    async getDriversPoints(req, res){
+        try{
+            const driversPoints = await repository.getDriversPoints(req.query.rank, parseInt(req.query.season));
+            res.status(200).send(driversPoints); 
+        }catch(e){
+            console.log(e);
+            res.status(400).send({
+                message: 'Falha ao processar sua requisição'
+            });
+        }
+    },
+
+    async getTeamPoints(req, res){
+        try{
+            const teamPoints = await repository.getTeamPoints();
+            res.status(200).send(teamPoints); 
+        }catch(e){
+            console.log(e);
+            res.status(400).send({
+                message: 'Falha ao processar sua requisição'
+            });
+        }
+    },
+
     async create(req, res){
         try{
             const driver = await driverRepository.getById(req.body.idDriver);

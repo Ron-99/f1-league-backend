@@ -4,9 +4,9 @@ const repository = require('../repositories/TeamRepository');
 
 module.exports = {
 
-    async get(_, res){
+    async get(req, res){
         try{
-            const teams = await repository.get();
+            const teams = await repository.get(req.query.name);
             res.status(200).send(teams);
         }catch(e){
             res.status(400).send({

@@ -15,6 +15,17 @@ module.exports = {
         }
     },
 
+    async getById(req, res) {
+        try{
+            const rank = await repository.getById(req.params.id);
+            res.status(200).send(rank);
+        }catch(e){
+            res.status(400).send({
+                message: 'Falha ao processar sua requisição'
+            });
+        }
+    },
+
     async create(req, res){
         try{
             await repository.create({
