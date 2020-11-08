@@ -8,15 +8,20 @@ require('dotenv').config({
     path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
 });
 
+const { DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME } = process.env
+
 const app = express();
 app.use(express.json());
 
 // Connect to database
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}`,{
+mongoose.connect(`mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
 });
+
+mongoose.connection.once('open', () => console.log('database connected'));
+mongoose.connection.on('error', () => console.error('database error:'));
 
 // Load Models 
 requireDir('./models');

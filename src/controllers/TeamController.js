@@ -18,13 +18,29 @@ module.exports = {
     async create(req, res){
         try{
             await repository.create({
-                name: req.body.name,
-                colorTeam: req.body.colorTeam
+                name: req.body.name
             });
             res.status(201).send({
                 message: 'Time criado com sucesso!'
             });
         }catch(e){
+            console.error(e);
+            res.status(400).send({
+                message: 'Falha ao processar sua requisição'
+            });
+        }
+    },
+
+    async update(req, res){
+        try{
+            await repository.update(req.params.id, {
+                name: req.query.name
+            });
+            res.status(200).send({
+                message: 'Time atualizado com sucesso!'
+            });
+        }catch(e){
+            console.error(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });

@@ -16,6 +16,17 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    driver: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Driver',
+        required: true
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: ['user', 'admin'],
+        default: 'user'
+    },
     created: {
         type: Date,
         default: Date.now()

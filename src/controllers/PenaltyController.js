@@ -6,7 +6,6 @@ module.exports = {
     async get(_, res){
         try{
             const penalties = await repository.get();
-            console.log(penalties)
             res.status(200).send(penalties);
         }catch(e){
             res.status(400).send({
@@ -36,13 +35,14 @@ module.exports = {
         try{
             await repository.create({
                 level: req.body.level,
-                description: req.body.description
+                description: req.body.description,
+                color: req.body.color
             });
             res.status(201).send({
                 message: 'Penalidade criada com sucesso!'
             });
         }catch(e){
-            console.log(e);
+            console.error(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });

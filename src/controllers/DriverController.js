@@ -59,7 +59,7 @@ module.exports = {
             })
             res.status(200).send(trophys);
         }catch(e){
-            console.log(e);
+            console.error(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });
@@ -71,7 +71,7 @@ module.exports = {
             const races = await repository.getRecentRaces(req.params.id);
             res.status(200).send(races);
         }catch(e){
-            console.log(e);
+            console.error(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });
@@ -93,7 +93,7 @@ module.exports = {
                 message: 'Piloto criado com sucesso!'
             });
         }catch(e){
-            console.log(e);
+            console.error(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });

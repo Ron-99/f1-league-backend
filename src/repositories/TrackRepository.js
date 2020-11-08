@@ -5,7 +5,10 @@ const Track = require('../models/Track');
 module.exports = {
 
     async get(){
-        const tracks = await Track.find({}, 'name flag').sort('name');
+        const tracks = await Track
+            .find({}, 'name flag')
+            .collation({ locale: "en" })
+            .sort({ name: 1 });
         return tracks;
     },
     

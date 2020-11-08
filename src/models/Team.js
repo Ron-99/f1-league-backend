@@ -7,10 +7,6 @@ const TeamSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    colorTeam: {
-        type: String,
-        required: true
-    },
     created: {
         type: Date,
         default: Date.now()

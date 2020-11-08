@@ -1,5 +1,6 @@
 'use strict';
 
+const { update } = require('../models/Team');
 const Team = require('../models/Team');
 
 module.exports = {
@@ -19,5 +20,9 @@ module.exports = {
 
     async create(data){
         await Team.create(data);
+    },
+    
+    async update(id, data){
+        await Team.findByIdAndUpdate(id, data);
     }
 }

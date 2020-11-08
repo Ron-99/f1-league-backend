@@ -6,10 +6,6 @@ const TrackSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
-    },
-    flag: {
-        type: String,
-        required: true
     }
 });
 

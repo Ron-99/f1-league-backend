@@ -4,7 +4,7 @@ const Classification = require('../models/Classification');
 const Driver = require('../models/Driver');
 
 module.exports = {
-    async get(date, rank){
+    async get(date, rank, season){
         const ratings = await Classification
             .find({
                 "date": {
@@ -12,6 +12,9 @@ module.exports = {
                 },
                 "rank": {
                     "$eq": rank
+                },
+                "season": {
+                    "$eq": season
                 }
             }, 'position driver rank date points track bestTime trialTime bestLap season')
             .populate('track', 'name flag')
@@ -73,7 +76,7 @@ module.exports = {
                     },
                     {
                         path: 'rank', 
-                        select: 'name'
+                        select: 'name season'
                     }]
                 })
             

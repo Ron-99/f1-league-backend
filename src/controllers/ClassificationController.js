@@ -4,18 +4,21 @@ const repository = require('../repositories/ClassificationRepository');
 const driverRepository = require('../repositories/DriverRepository');
 const trackRepository = require('../repositories/TrackRepository');
 const rankRepository = require('../repositories/RankRepository');
-const { update } = require('../models/Rank');
+const teamRepository = require('../repositories/TeamRepository');
 
 module.exports = {
     async get(req, res){
         try{
-            const ratings = await repository.get(req.query.date, req.query.rank);
+            const ratings = await repository.get(req.query.date, req.query.rank, req.query.season);
 
             let times = [];
-            ratings.forEach((rating, i) => {
+            ratings.forEach((rating) => {
                 const time = parseInt(rating.bestTime.replace(':', '').replace(',', ''));
                 const data = time
-                times.push(Math.min(data))
+                
+
+                if(!isNaN(data))
+                    times.push(Math.min(data))
             })
             Array.min = function(array) {
                 return Math.min.apply(Math, array);
@@ -24,6 +27,8 @@ module.exports = {
             String.prototype.splice = function(idx, rem, str) {
                 return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
             };
+
+
 
             const best_time = Array.min(times).toString().splice(1, 0, ":").splice(4, 0, ",");
 
@@ -36,6 +41,7 @@ module.exports = {
 
             res.status(200).send(ratings);
         }catch(e){
+            console.error(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });
@@ -58,7 +64,7 @@ module.exports = {
             const driversPoints = await repository.getDriversPoints(req.query.rank, parseInt(req.query.season));
             res.status(200).send(driversPoints); 
         }catch(e){
-            console.log(e);
+            console.error(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });
@@ -67,10 +73,53 @@ module.exports = {
 
     async getTeamPoints(req, res){
         try{
-            const teamPoints = await repository.getTeamPoints();
+            const driversPoints = await repository.getDriversPoints(req.query.rank, parseInt(req.query.season));
+            const teams = await teamRepository.get();
+
+            const teamPoints = []
+
+            function compare(a, b) {
+                const pointsA = a.points;
+                const pointsB = b.points;
+              
+                let comparison = 0;
+                if (pointsA < pointsB) {
+                  comparison = 1;
+                } else if (pointsA > pointsB) {
+                  comparison = -1;
+                }
+                return comparison;
+              }
+              
+
+
+            teams.forEach((team) => {      
+                let driver = {
+                    _id: "",
+                    team: "",
+                    drivers: "",
+                    points: 0
+                }
+                let i = 0;    
+                driversPoints.forEach((driverPoints) => {
+                    
+                    if(team.name === driverPoints._id.team[0].name && req.query.rank === driverPoints._id.rank[0].name){
+                        driver._id = team._id;
+                        driver.team = team.name;
+                        driver.drivers += driverPoints._id.name + (i === 0 ? ', ' : '');
+                        driver.points += driverPoints.points;
+                        i++;
+                    }
+                }) 
+                if(driver.team !== "")
+                    teamPoints.push(driver);               
+            })
+
+            teamPoints.sort(compare);
+
             res.status(200).send(teamPoints); 
         }catch(e){
-            console.log(e);
+            console.error(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });
@@ -93,12 +142,12 @@ module.exports = {
                 bestTime: req.body.bestTime,
                 trialTime: req.body.trialTime,
                 season: rank.season[rank.season.length-1].number
-            });
+            }); 
             res.status(201).send({
                 message: 'Classificação criado com sucesso!'
             });
         }catch(e){
-            console.log(e);
+            console.error(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });
@@ -123,7 +172,7 @@ module.exports = {
                 message: 'Classificação atualizada com sucesso!'
             });
         }catch(e){
-            console.log(e);
+            console.error(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });
