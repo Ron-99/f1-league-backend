@@ -5,8 +5,18 @@ const User = require('../models/User');
 module.exports = {
 
     async get(){
-        const users = await User.find({}, 'name email driver role');
+        const users = await User.find({}, 'name email driver roles');
         return users;
+    },
+
+    async getById(id){
+        const user = await User.findById(id);
+        return user;
+    },
+
+    async getByEmail(email){
+        const user = await User.findOne({email: email});
+        return user;
     },
 
     async create(data){

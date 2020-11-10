@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        index: true
+        unique: true
     },
     password: {
         type: String,
@@ -18,15 +18,14 @@ const UserSchema = new mongoose.Schema({
     },
     driver: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Driver',
-        required: true
+        ref: 'Driver'
     },
-    role: {
+    roles: [{
         type: String,
         required: true,
         enum: ['user', 'admin'],
         default: 'user'
-    },
+    }],
     created: {
         type: Date,
         default: Date.now()
