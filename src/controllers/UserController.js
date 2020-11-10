@@ -20,7 +20,7 @@ module.exports = {
 
     async create(req, res){
         try{
-            // const driver = await driverRepository.getById(req.body.idDriver);
+            const driver = await driverRepository.getById(req.body.idDriver);
 
             const user = await repository.getByEmail(req.body.email);
 
@@ -34,7 +34,7 @@ module.exports = {
                 name: req.body.name,
                 email: req.body.email,
                 password: md5(req.body.password),
-                // driver: driver,
+                driver: driver,
                 roles: [req.body.roles]
             });
             res.status(201).send({
