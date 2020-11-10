@@ -39,11 +39,9 @@ module.exports = {
                     '$eq': rank
                 }
             }, 'date')
-            .sort('date')
-            .distinct('date')
-            
-
-        return dates;
+            .distinct('date');
+        
+        return dates.reverse();
     },
 
     async getDriversPoints(rank, season){
