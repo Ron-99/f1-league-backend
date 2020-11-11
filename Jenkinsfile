@@ -20,6 +20,7 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/Ron-99/f1-league-backend.git'
             }
         }
+    }
 
     // stage('Using Ansible to deploy a MySQL container in a docker machine'){
     //     steps{
