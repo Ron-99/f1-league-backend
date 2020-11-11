@@ -1,11 +1,4 @@
 pipeline {
-    // environment {
-    //     app_name = readMavenPom().getName()
-    //     registry = "registry.dpsp.io/summit/architecture-products"
-    //     registryCredential = 'registryDPSP'
-    //     dockerImage = ''
-    //     DB_SERVER = "172.26.131.51:3306"
-    // }
     agent any
 
     tools {
@@ -19,21 +12,19 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/Ron-99/f1-league-backend.git'
             }
         }
-        stage('Install dependencys') {
+        stage('Install Dependencies') {
             steps {
                 sh 'npm i'
             }
         }
+        stage('Enter workspace'){
+            step{
+                sh 'cd $WORKSPACE'
+            }
+        }
     }
 
-    // stage('Using Ansible to deploy a MySQL container in a docker machine'){
-    //     steps{
-    //         sshPublisher alwaysPublishFromMaster: true, publishers: [sshPublisherDesc(configName: 'ansible-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''cd /opt/playbooks
-    //         /home/ansadmin/.local/bin/ansible-playbook -i hosts deploy_mysql_image.yml''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false,
-    //         patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')],
-    //         usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)]
-    //         }
-    //     }
+    
 
     // stage('SonarQube'){
     //     environment {
