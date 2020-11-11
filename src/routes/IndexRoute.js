@@ -6,9 +6,9 @@ const router = express.Router();
 router.get('/', (_, res) => {
     res.status(200).send({
         title: 'API da Liga do Brasil',
-        version: '1.0.0',
+        version: '1.0.1',
         author: 'Ronaldo Gomes',
-        github: 'github.com/ron17'
+        github: 'github.com/ron-99'
     });
 });
 
