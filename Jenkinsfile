@@ -8,16 +8,20 @@ pipeline {
     // }
     agent any
 
-    // tools {
-    //     maven 'Maven'
-    //     jdk 'JDK'
-    // }
+    tools {
+        nodejs 'Node'
+    }
 
 
     stages {
         stage('Pulling Repository') {
             steps {
                 git branch: 'master', url: 'https://github.com/Ron-99/f1-league-backend.git'
+            }
+        }
+        stage('Install dependencys') {
+            steps {
+                sh 'npm i'
             }
         }
     }
