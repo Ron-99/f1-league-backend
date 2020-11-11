@@ -18,7 +18,7 @@ pipeline {
             }
         }
         stage('Enter workspace'){
-            step{
+            steps{
                 sh 'cd $WORKSPACE'
             }
         }
