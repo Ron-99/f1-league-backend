@@ -5,7 +5,6 @@ const driverRepository = require('../repositories/DriverRepository');
 const trackRepository = require('../repositories/TrackRepository');
 const rankRepository = require('../repositories/RankRepository');
 const teamRepository = require('../repositories/TeamRepository');
-const authService = require('../services/AuthService');
 
 module.exports = {
     async get(req, res){
@@ -129,7 +128,6 @@ module.exports = {
 
     async create(req, res){
         try{
-            const token = req.body.token || req.query.token || req.headers['x-access-token'];
             const driver = await driverRepository.getById(req.body.idDriver);
             const track = await trackRepository.getById(req.body.idTrack);
             const rank =  await rankRepository.getById(driver.rank[driver.rank.length-1]);
