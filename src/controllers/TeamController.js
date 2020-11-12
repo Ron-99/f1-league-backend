@@ -24,7 +24,7 @@ module.exports = {
                 message: 'Falha ao processar sua requisição'
             });
         }
-    }
+    },
 
     async create(req, res){
         try{
