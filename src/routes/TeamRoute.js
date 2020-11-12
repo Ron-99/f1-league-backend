@@ -6,6 +6,7 @@ const TeamController = require('../controllers/TeamController');
 const authService = require('../services/AuthService');
 
 router.get('/', TeamController.get);
+router.get('/:id', TeamController.getById);
 router.post('/', authService.authorize, TeamController.create);
 router.put('/:id', authService.authorize, TeamController.update);
 
