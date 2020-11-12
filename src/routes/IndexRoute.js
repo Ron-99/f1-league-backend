@@ -5,10 +5,11 @@ const router = express.Router();
 
 router.get('/', (_, res) => {
     res.status(200).send({
-        title: 'API da Liga do Brasil',
+        title: 'API da e-racebrasil',
         version: '1.0.2',
         author: 'Ronaldo Gomes',
-        github: 'github.com/ron-99'
+        github: 'github.com/ron-99',
+        linkedin: 'https://www.linkedin.com/in/ron99/'
     });
 });
 
