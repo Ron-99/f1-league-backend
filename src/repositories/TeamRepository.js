@@ -1,6 +1,5 @@
 'use strict';
 
-const { update } = require('../models/Team');
 const Team = require('../models/Team');
 
 module.exports = {
@@ -19,7 +18,8 @@ module.exports = {
     },
 
     async create(data){
-        await Team.create(data);
+        const team = await Team.create(data);
+        return team;
     },
     
     async update(id, data){

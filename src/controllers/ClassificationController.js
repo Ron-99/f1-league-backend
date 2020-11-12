@@ -144,7 +144,7 @@ module.exports = {
                 season: rank.season[rank.season.length-1].number
             }); 
             res.status(201).send({
-                message: 'Classificação criado com sucesso!'
+                message: 'Classificação criada com sucesso!'
             });
         }catch(e){
             console.error(e);

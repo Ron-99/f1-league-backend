@@ -17,10 +17,11 @@ module.exports = {
 
     async create(req, res){
         try{
-            await repository.create({
+            const team = await repository.create({
                 name: req.body.name
             });
             res.status(201).send({
+                data: team,
                 message: 'Time criado com sucesso!'
             });
         }catch(e){
