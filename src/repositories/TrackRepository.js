@@ -21,8 +21,7 @@ module.exports = {
         await Track.create(data);
     },
 
-    async updateFlag(id, data){
-        await Track.findOneAndUpdate({_id: id}, {flag: data})
+    async updateFlag(id, data, user, date){
+        await Track.findOneAndUpdate({_id: id}, {flag: data, updatedBy: user, updated: date})
     }
-
 }

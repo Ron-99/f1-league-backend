@@ -4,6 +4,7 @@ const repository = require('../repositories/DriverRepository');
 const teamRepository = require('../repositories/TeamRepository');
 const rankRepository = require('../repositories/RankRepository');
 const penaltyRepository = require('../repositories/PenaltyRepository');
+const userRepository = require('../repositories/UserRepository');
 
 module.exports = {
     async get(_, res){
@@ -82,12 +83,15 @@ module.exports = {
         try{
             const team = await teamRepository.getById(req.body.idTeam);
             const rank = await rankRepository.getById(req.body.idRank);
+            const user = await userRepository.getByEmail(req.header('emailUser'));
             const penalty = await penaltyRepository.getByLevel(0);
             await repository.create({
                 name: req.body.name,
                 team: [team],
                 rank: [rank],
-                penalty: penalty
+                penalty: penalty,
+                createdBy: user,
+                updatedBy: user
             });
             res.status(201).send({
                 message: 'Piloto criado com sucesso!'
@@ -103,7 +107,8 @@ module.exports = {
     async updatePenalty(req, res){
         try{
             const penalty = await penaltyRepository.getByLevel(req.query.level);
-            await repository.updatePenalty(req.params.id, penalty);
+            const user = await userRepository.getByEmail(req.header('emailUser'));
+            await repository.updatePenalty(req.params.id, penalty, user, Date.now());
             res.status(200).send({
                 message: 'Piloto atualizado com sucesso!'
             });
@@ -117,7 +122,9 @@ module.exports = {
     async updateTeam(req, res){
         try{
             const team = await teamRepository.getById(req.body.idTeam);
-            await repository.updateTeam(req.params.id, team);
+            const user = await userRepository.getByEmail(req.header('emailUser'));
+            console.log(req.header('idUser'))
+            await repository.updateTeam(req.params.id, team, user, Date.now());
             res.status(200).send({
                 message: 'Piloto atualizado com sucesso!'
             });

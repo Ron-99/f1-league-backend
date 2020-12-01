@@ -1,6 +1,7 @@
 'use strict';
 
 const repository = require('../repositories/PenaltyRepository');
+const userRepository = require('../repositories/UserRepository');
 
 module.exports = {
     async get(_, res){
@@ -16,10 +17,13 @@ module.exports = {
 
     async update(req, res){
         try{
+            const user = await userRepository.getByEmail(req.header('emailUser'));
             await repository.update(req.params.id, {
                 level: req.body.level,
                 description: req.body.description,
-                color: req.body.color
+                color: req.body.color,
+                updatedBy: user,
+                updated: Date.now()
             });
             res.status(200).send({
                 message: 'Penalidade atualizada com sucesso!'
@@ -33,10 +37,13 @@ module.exports = {
 
     async create(req, res) {
         try{
+            const user = await userRepository.getByEmail(req.header('emailUser'));
             await repository.create({
                 level: req.body.level,
                 description: req.body.description,
-                color: req.body.color
+                color: req.body.color,
+                createdBy: user,
+                updatedBy: user
             });
             res.status(201).send({
                 message: 'Penalidade criada com sucesso!'

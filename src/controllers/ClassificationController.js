@@ -5,6 +5,7 @@ const driverRepository = require('../repositories/DriverRepository');
 const trackRepository = require('../repositories/TrackRepository');
 const rankRepository = require('../repositories/RankRepository');
 const teamRepository = require('../repositories/TeamRepository');
+const userRepository = require('../repositories/UserRepository');
 
 module.exports = {
     async get(req, res){
@@ -131,6 +132,7 @@ module.exports = {
             const driver = await driverRepository.getById(req.body.idDriver);
             const track = await trackRepository.getById(req.body.idTrack);
             const rank =  await rankRepository.getById(driver.rank[driver.rank.length-1]);
+            const user = await userRepository.getByEmail(req.header('emailUser'));
             
             await repository.create({
                 position: req.body.position,
@@ -141,7 +143,9 @@ module.exports = {
                 track: track,
                 bestTime: req.body.bestTime,
                 trialTime: req.body.trialTime,
-                season: rank.season[rank.season.length-1].number
+                season: rank.season[rank.season.length-1].number,
+                createdBy: user,
+                updatedBy: user
             }); 
             res.status(201).send({
                 message: 'Classificação criada com sucesso!'
@@ -158,6 +162,9 @@ module.exports = {
         try{
             const driver = await driverRepository.getById(req.body.idDriver);
             const track = await trackRepository.getById(req.body.idTrack);
+            const user = await userRepository.getByEmail(req.header('emailUser'));
+            console.log(req.header('emailUser'));
+            console.log(user)
             
             await repository.update(req.params.id,{
                 position: req.body.position,
@@ -166,7 +173,8 @@ module.exports = {
                 driver: driver,
                 track: track,
                 bestTime: req.body.bestTime,
-                trialTime: req.body.trialTime
+                trialTime: req.body.trialTime,
+                updatedBy: user
             });
             res.status(200).send({
                 message: 'Classificação atualizada com sucesso!'

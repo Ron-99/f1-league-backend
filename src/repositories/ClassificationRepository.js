@@ -16,9 +16,10 @@ module.exports = {
                 "season": {
                     "$eq": season
                 }
-            }, 'position driver rank date points track bestTime trialTime bestLap season')
+            }, 'position driver rank date points track bestTime trialTime bestLap season updatedBy')
             .populate('track', 'name flag')
             .populate('driver', 'name')
+            .populate('updatedBy', 'name')
             .populate({
                 path: 'driver',
                 select: 'name',
