@@ -1,6 +1,7 @@
 'use strict';
 
 const repository = require('../repositories/RankRepository');
+const userRepository = require('../repositories/UserRepository');
 
 module.exports = {
     
@@ -45,13 +46,16 @@ module.exports = {
 
     async create(req, res){
         try{
+            const user = await userRepository.getByEmail(req.header('emailUser'));
             await repository.create({
                 name: req.body.name,
                 season: [{
                     number: req.body.season.number,
                     initialDate: req.body.season.initialDate,
                     finalDate: req.body.season.finalDate
-                }]
+                }],
+                createdBy: user,
+                updatedBy: user
             });
             res.status(201).send({
                 message: 'Liga criada com sucesso!'

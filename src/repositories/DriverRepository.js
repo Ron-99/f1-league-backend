@@ -6,9 +6,11 @@ const Classification = require('../models/Classification');
 module.exports = {
     async get(){
         const drivers = await Driver
-            .find({}, 'name team')
+            .find({}, 'name team createdBy updatedBy')
             .populate('team', 'name')
             .populate('rank', 'name')
+            .populate('createdBy', 'name')
+            .populate('updatedBy', 'name')
         return drivers;
     },
 
@@ -53,12 +55,12 @@ module.exports = {
         await Driver.create(data);
     },
 
-    async updatePenalty(id, data){
-        await Driver.findByIdAndUpdate(id, {penalty: data});
+    async updatePenalty(id, data, user, date){
+        await Driver.findByIdAndUpdate(id, {updated: date, penalty: data, updatedBy: user});
     },
 
-    async updateTeam(id, data){
-        const driver = await Driver.findOneAndUpdate({_id: id}, { $push: { team: data}});
+    async updateTeam(id, data, user, date ){
+        const driver = await Driver.findOneAndUpdate({_id: id}, {updated: date, updatedBy: user, $push: { team: data} });
         return driver;
     }
 }

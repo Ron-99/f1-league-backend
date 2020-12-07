@@ -1,6 +1,7 @@
 'use strict';
 
 const repository = require('../repositories/TeamRepository');
+const userRepository = require('../repositories/UserRepository');
 
 module.exports = {
 
@@ -28,8 +29,11 @@ module.exports = {
 
     async create(req, res){
         try{
+            const user = await userRepository.getByEmail(req.header('emailUser'));
             const team = await repository.create({
-                name: req.body.name
+                name: req.body.name,
+                createdBy: user,
+                updatedBy: user
             });
             res.status(201).send({
                 data: team,
@@ -45,8 +49,11 @@ module.exports = {
 
     async update(req, res){
         try{
+            const user = await userRepository.getByEmail(req.header('emailUser'));
             await repository.update(req.params.id, {
-                name: req.query.name
+                name: req.query.name,
+                updatedBy: user,
+                updated: Date.now()
             });
             res.status(200).send({
                 message: 'Time atualizado com sucesso!'

@@ -28,6 +28,16 @@ const RankSchema = new mongoose.Schema({
     updated: {
         type: Date,
         default: Date.now()
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    updatedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
     }
 });
 
