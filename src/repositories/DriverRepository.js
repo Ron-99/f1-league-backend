@@ -34,16 +34,30 @@ module.exports = {
         return driver;
     },
 
-    async getWins(id){
-        const driver = await this.getById(id);
+    async getWins(id, name){
+        let driver;
+        if(!!id)
+            driver = await this.getById(id);
+        else{
+            driver = await this.getByName(name);
+            driver = driver[0];
+        }
         const wins = await Classification
             .find({driver: driver}, 'position');
 
         return wins;
     },
 
-    async getRecentRaces(id){
-        const driver = await this.getById(id);
+    async getRecentRaces(id, name){
+        
+        let driver;
+        if(!!id)
+            driver = await this.getById(id);
+        else{
+            driver = await this.getByName(name);
+            driver = driver[0];
+        }
+                    
         const races = await Classification
             .find({driver: driver}, 'position rank date points track bestTime trialTime bestLap season')
             .populate('track', 'name flag')
