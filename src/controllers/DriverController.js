@@ -42,7 +42,7 @@ module.exports = {
 
     async getWins(req, res){
         try{
-            const wins = await repository.getWins(req.params.id);
+            const wins = await repository.getWins(req.params.id, req.query.name);
             let trophys = {
                 first: 0,
                 second: 0,
@@ -69,10 +69,10 @@ module.exports = {
 
     async getRaces(req, res){
         try{
-            const races = await repository.getRecentRaces(req.params.id);
+            const races = await repository.getRecentRaces(req.params.id, req.query.name);
             res.status(200).send(races);
         }catch(e){
-            console.error(e);
+            console.log(e);
             res.status(400).send({
                 message: 'Falha ao processar sua requisição'
             });
